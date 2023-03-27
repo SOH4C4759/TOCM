@@ -53,7 +53,8 @@ def read_file(file_path, sheet_name):
 
     return col1_data, col2_data,
 
-
+# D:\Python\Lib\site-packages
+# E:\TimeOffset Calculator for Multilingual\TOCM.py
 def open_file():
     file_path = filedialog.askopenfilename(title="请选中带时间码的文件",
                                            filetypes=(("Excel Files", "*.xlsx;*.xls"),
