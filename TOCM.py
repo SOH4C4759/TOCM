@@ -58,6 +58,8 @@ def open_file():
     file_path = filedialog.askopenfilename(title="请选中带时间码的文件",
                                            filetypes=(("Excel Files", "*.xlsx;*.xls"),
                                                       ("All Files", "*.*")))
+    col1_name = col1_name_entry.get()
+    col2_name = col2_name_entry.get()
     if file_path:
         try:
             sheet_name = sheet_name_entry.get()
@@ -68,17 +70,39 @@ def open_file():
             print(f"Error: {e}")
 
 
+# 创建Tkinter界面
 root = tk.Tk()
-root.title("文件阅读器")
+root.title("Excel处理")
 
+# 创建按钮，点击后执行open_file函数
 open_button = tk.Button(root, text="打开文件", command=open_file)
-open_button.pack()
+open_button.grid(row=0, column=0, padx=5, pady=5)
 
-tk.Label(root, text="Sheet名称：").pack()
+sheet_name_label = tk.Label(root, text="Sheet名称")
+sheet_name_label.grid(row=1, column=0, padx=5, pady=5)
+
+# 创建输入框，用于输入Sheet名称
 sheet_name_entry = tk.Entry(root)
-sheet_name_entry.pack()
+sheet_name_entry.grid(row=2, column=0, padx=5, pady=5)
 
+
+# 创建标签，显示“第一列名称”
+col1_name_label = tk.Label(root, text="第一列名称")
+col1_name_label.grid(row=3, column=0, padx=5, pady=5)
+
+# 创建输入框，用于输入第一列名称
+col1_name_entry = tk.Entry(root)
+col1_name_entry.grid(row=4, column=0, padx=5, pady=5)
+col1_name_entry.insert(0, "时间码")  # 默认值
+
+# 创建标签，显示“第二列名称”
+col2_name_label = tk.Label(root, text="第二列名称")
+col2_name_label.grid(row=5, column=0, padx=5, pady=5)
+
+# 创建输入框，用于输入第二列名称
+col2_name_entry = tk.Entry(root)
+col2_name_entry.grid(row=6, column=0, padx=5, pady=5)
+col2_name_entry.insert(0, "时间偏差")  # 默认值
+
+# 运行Tkinter界面
 root.mainloop()
-
-# Column 1 data: ['0.12.200', '0.22.766', '0.26.466', '0.34.610', '0.37.910', '0.45.010', '0.48.376', '0.55.210', '1.08.444']
-# Column 1 data: ['0.12.200', '0.22.766', '0.26.466', '0.34.610', '0.37.910', '0.45.010', '0.48.376', '0.56.210', '1.09.444']
