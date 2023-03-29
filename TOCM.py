@@ -11,8 +11,8 @@ def add_timecodes(timecode1, timecode2):
         minutes = int(seconds // 60)
         remaining_seconds = seconds % 60
         seconds = int(remaining_seconds)
-        milliseconds = int((remaining_seconds - seconds) * 1000)
-        timecode = f"{minutes}.{seconds:02d}.{milliseconds:03d}"
+        milliseconds = round((remaining_seconds - seconds) * 1000, 3)  # 修改这里，保留3位小数
+        timecode = f"{minutes}.{seconds:02d}.{milliseconds:03.0f}"  # 修改这里，格式化为3位小数
         return timecode
 
     seconds1 = timecode_to_seconds(timecode1)
@@ -26,12 +26,14 @@ def add_timecodes(timecode1, timecode2):
 def read_file(file_path, sheet_name):
     if file_path.endswith(('.xlsx', '.xls')):
         data = read_excel(file_path, sheet_name=sheet_name)
+        print(file_path)
     else:
         raise ValueError("Unsupported file format.")
 
     col1_data = data['时间码'].tolist()
     col2_data = data.iloc[:, 5].tolist()
     length = len(col1_data)
+    print("列表有：{}行".format(length))
 
     for i, value in enumerate(col2_data):
         # print(i,value)
@@ -53,17 +55,19 @@ def read_file(file_path, sheet_name):
 
 # D:\Python\Lib\site-packages
 # E:\TimeOffset Calculator for Multilingual\TOCM.py
-# pyinstaller -F -w "E:\TimeOffset Calculator for Multilingual\TOCM.py" -p "D:\Python\Lib\site-packages"
+# pyinstaller -F  "E:\TimeOffset Calculator for Multilingual\TOCM.py" -p "D:\Python\Lib\site-packages"
 
 def open_file():
     file_path = filedialog.askopenfilename(title="请选中带时间码的文件",
                                            filetypes=(("Excel Files", "*.xlsx;*.xls"),
                                                       ("All Files", "*.*")))
+    print(file_path)
     col1_name = col1_name_entry.get()
     col2_name = col2_name_entry.get()
     if file_path:
         try:
             sheet_name = sheet_name_entry.get()
+            print("SheetName:{}".format(sheet_name))
             col1_data, col2_data = read_file(file_path, sheet_name)
             print("Column 1 data:", col1_data)
             print("Column 2 data:", col2_data)
