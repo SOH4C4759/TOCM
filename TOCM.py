@@ -1,10 +1,15 @@
-from tkinter import filedialog,Tk,Button,Label,Entry
-from pandas import read_excel,isna,Series,ExcelWriter
+from tkinter import filedialog, Tk, Button, Label, Entry
+from pandas import read_excel, isna, Series, ExcelWriter
+
 
 def add_timecodes(timecode1, timecode2):
     def timecode_to_seconds(timecode):
-        minutes, seconds, milliseconds = map(int, timecode.split('.'))
+        minutes, seconds, milliseconds = map(int, str(timecode).split('.'))
         total_seconds = minutes * 60 + seconds + milliseconds / 1000
+
+        # 判断Total_Seconds的正负号
+        if timecode.startswith('-'):
+            total_seconds *= -1
         return total_seconds
 
     def seconds_to_timecode(seconds):
@@ -53,6 +58,7 @@ def read_file(file_path, sheet_name):
 
     return col1_data, col2_data,
 
+
 # D:\Python\Lib\site-packages
 # E:\TimeOffset Calculator for Multilingual\TOCM.py
 # pyinstaller -F  "E:\TimeOffset Calculator for Multilingual\TOCM.py" -p "D:\Python\Lib\site-packages"
@@ -72,7 +78,7 @@ def open_file():
             print("Column 1 data:", col1_data)
             print("Column 2 data:", col2_data)
             from tkinter.messagebox import showinfo
-            showinfo(title="Excel处理已完成",message="Excel文件已计算最终时间，请打开文件确认")
+            showinfo(title="Excel处理已完成", message="Excel文件已计算最终时间，请打开文件确认")
         except Exception as e:
             print(f"Error: {e}")
 
@@ -91,7 +97,6 @@ sheet_name_label.grid(row=1, column=0, padx=5, pady=5)
 # 创建输入框，用于输入Sheet名称
 sheet_name_entry = Entry(root)
 sheet_name_entry.grid(row=2, column=0, padx=5, pady=5)
-
 
 # 创建标签，显示“第一列名称”
 col1_name_label = Label(root, text="第一列名称")
